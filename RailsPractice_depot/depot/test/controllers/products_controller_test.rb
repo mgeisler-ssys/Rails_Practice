@@ -53,4 +53,9 @@ class ProductsControllerTest < ActionController::TestCase
 
     assert_redirected_to products_path
   end
+  #Task C exercise 3
+  # test "page must contain a form" do
+  #   assert_select "form div", 5
+  # end
+
 end
