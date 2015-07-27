@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Tasks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Description</th>
+      <th>Date Created</th>
+      <th>Completed</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr class=" <%= cycle('list_line_odd', 'list_line_even') %> ">
+        <td class="list_description">
+          <dl>
+            <dt><%= task.title %></dt>
+          </dl>
+        </td>
+        <td><%= truncate(strip_tags(task.description), length: 80) %></td>
+        <td><%= task.created_at %></td>
+        <td><%= task.completed %></td>
+        <td class="list_actions">
+          <%= link_to 'Show', task %><br />
+          <%= link_to 'Edit', edit_task_path(task) %>
+          <br />
+          <%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Task', new_task_path %>
