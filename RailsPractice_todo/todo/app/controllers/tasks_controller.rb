@@ -51,12 +51,24 @@ class TasksController < ApplicationController
     end
   end
 
+  # def toggle
+  #   @task = Task.find(params[:id])
+  #
+  #   if @task.update_attributes(:completed => params[:completed])
+  #     # ... update successful
+  #   else
+  #     # ... update failed
+  #   end
+  #
+  #   redirect_to :action => 'index', notice: "'#{task.title}' Completed"
+  # end
+
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to tasks_url, notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to list_url, notice: 'Task was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

@@ -1,0 +1,39 @@
+<% if notice %>
+  <p id="notice"><%= notice %></p>
+<% end %>
+
+<h1>To-Do's</h1>
+<table>
+  <thead>
+  <th><%= sortable "title", "Task"%></th>
+  <th>Description</th>
+  <th><%= sortable "completed", "State" %></th>
+  <th>Complete</th>
+  <th colspan="4"></th>
+  </thead>
+<% @tasks.each do |task| %>
+  <tr class="<%= get_style_from_state(task.id) %>">
+    <td><%= task.title %></td>
+    <td><%= sanitize(task.description) %></td>
+    <td><%= task.check_for_completion(task[:id]) ? "Completed" : "Active" %></td>
+    <td>
+      <% if task.check_for_completion(task[:id]) != true %>
+          <%= form_for task do |f| %>
+              <%= f.check_box(:completed, :value => 0) %>
+
+          <% end %>
+      <% else %>
+          <%= form_for task do |f| %>
+              <%= f.check_box(:completed, {:disabled => true}, :value => 1) %>
+          <% end %>
+      <% end %>
+    </td>
+    <td class="delete_action">
+      <%= button_to 'Edit', edit_task_path(task), :class => "button", :method => :get %>
+    </td>
+    <td class="delete_action"><%= button_to 'X', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+<br />
+<%= button_to 'Add Task', new_task_path, :class => "button", :method => :get %>

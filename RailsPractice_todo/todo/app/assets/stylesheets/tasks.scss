@@ -17,7 +17,6 @@
   }
 
   .list_description {
-    width: 20%;
 
     dl {
       margin: 0;
@@ -31,6 +30,7 @@
 
     dd {
       margin: 0;
+      text-align:center
     }
   }
   .list_actions {
