@@ -3,34 +3,39 @@
 <% end %>
 
 <h1>To-Do's</h1>
-<table>
-  <thead>
-  <th><%= sortable "title", "Task"%></th>
-  <th>Description</th>
-  <th><%= sortable "created_at", "Date Created" %></th>
-  <th><%= sortable "date_completed", "Date Completed" %></th>
-  <th><%= sortable "completed", "State" %></th>
-  <th>Complete</th>
-  <th colspan="5"></th>
-  </thead>
-      <% @tasks.each do |task| %>
-          <tr class="<%= get_style_from_state(task.id) %>">
-            <td><%= task.title %></td>
-            <td><%= sanitize(task.description) %></td>
-            <td><%= task.created_at %></td>
-            <td><%= task.date_completed ? task.date_completed : "Pending" %></td>
-            <td><%= task.check_for_completion(task[:id]) ? "Completed" : "Active" %></td>
-            <td>
-              <% if task.check_for_completion(task[:id]) != true %>
-                  <%= button_to 'Complete', complete_tasks_path(:task_id => task[:id]), :class=> "button", :method => :post  %>
-              <% end %>
-            </td>
-            <td class="delete_action">
-              <%= button_to 'Edit', edit_task_path(task), :class => "button", :method => :get %>
-            </td>
-            <td class="delete_action"><%= button_to 'X', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-      <% end %>
-</table>
+<% if @tasks.size > 0 %>
+  <table>
+    <thead>
+    <th><%= sortable "title", "Task"%></th>
+    <th>Description</th>
+    <th><%= sortable "created_at", "Date Created" %></th>
+    <th><%= sortable "date_completed", "Date Completed" %></th>
+    <th><%= sortable "completed", "State" %></th>
+    <th>Complete</th>
+    <th colspan="5"></th>
+    </thead>
+        <% @tasks.each do |task| %>
+            <tr class="<%= get_style_from_state(task.id) %>">
+              <td><%= task.title %></td>
+              <td><%= sanitize(task.description) %></td>
+              <td><%= task.created_at %></td>
+              <td><%= get_date_completed_from_task(task[:id]) %></td>
+              <td><%= task.check_for_completion(task[:id]) ? "Completed" : "Active" %></td>
+              <td>
+                <% if task.check_for_completion(task[:id]) != true %>
+                    <%= button_to 'Complete', complete_tasks_path(:task_id => task[:id]), :class=> "button", :method => :post  %>
+                <% end %>
+              </td>
+              <td class="delete_action">
+                <%= button_to 'Edit', edit_task_path(task), :class => "button", :method => :get %>
+              </td>
+              <td class="delete_action"><%= button_to 'X', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+        <% end %>
+  </table>
+<% else %>
+    <br />
+ <p> No Current Tasks...</p>
+<% end %>
 <br />
 <%= button_to 'Add Task', new_task_path, :class => "button", :method => :get %>

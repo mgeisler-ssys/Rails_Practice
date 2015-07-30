@@ -20,5 +20,9 @@
   <%= @task.completed %>
 </p>
 
+<p>
+  <strong>Date Completed:</strong>
+  <%= get_date_completed_from_task(@task[:id])%>
+</p>
 <%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Finish', tasks_path %>
+<%= link_to 'Back to List', tasks_path %>

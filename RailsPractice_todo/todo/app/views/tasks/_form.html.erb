@@ -27,6 +27,14 @@
     <%= f.label :completed %>
     <%= f.check_box(:completed) %>
   </div>
+  <div>
+    <% if @task[:completed] == true %>
+      <%= f.label "Date Completed: " %>
+      <%= f.date_select :date_completed, :disabled=> true %>
+    <% else %>
+      <%= f.label "Date Completed: Pending" %>
+    <% end %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

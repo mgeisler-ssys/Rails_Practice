@@ -16,6 +16,12 @@ class Task < ActiveRecord::Base
   def update_completed(task_id)
     task = Task.find(task_id)
     task.update_column(:completed, !task[:completed])
+
+    if task[:completed] == true
+      task[:date_completed] = Date.today
+    else
+      task[:date_completed] = nil
+    end
     task.save!
   end
 
