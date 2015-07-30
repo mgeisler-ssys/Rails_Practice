@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .tasks {
-  width: 70%;
+  width: 80%;
   h1 {
     margin: 0;
     padding-bottom: 0.5em;
@@ -17,7 +17,10 @@
     vertical-align: top;
   }
 
+
   table{
+    border-collapse: collapse;
+
     thead{
       vertical-align:middle;
       text-align:left;
@@ -32,6 +35,16 @@
     .list_completed{
       background-color:#D9E3C8;
       color: #666666;
+    }
+
+    .highlighted {
+      color: #261F1D;
+      background-color: #EBFDFE;
+    }
+
+    tr:hover{
+      color: #261F1D;
+      background-color: #EBFDFE;
     }
 
   }

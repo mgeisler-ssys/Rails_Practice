@@ -13,6 +13,17 @@ class Task < ActiveRecord::Base
   end
 
 
+  def update_date_completed(task_id ,complete_state)
+    task = Task.find(task_id)
+    if complete_state == true
+      task[:date_completed] = Date.today
+    else
+      task[:date_completed] = nil
+    end
+    task.save!
+  end
+
+
   def update_completed(task_id)
     task = Task.find(task_id)
     task.update_column(:completed, !task[:completed])
@@ -25,4 +36,7 @@ class Task < ActiveRecord::Base
     task.save!
   end
 
+  def priority_hash
+    return {1 => "Low", 2 => "Medium", 3 => "High"}
+  end
 end

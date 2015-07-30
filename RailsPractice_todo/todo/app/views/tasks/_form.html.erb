@@ -20,20 +20,24 @@
     <%= f.text_area :description, rows: 6 %>
   </div>
   <div class="field">
+    <%= f.label :priority %>
+    <%= f.select(:priority, options_for_select(@task.priority_hash.invert, @task[:priority])) %>
+  </div>
+  <div class="field">
     <%= f.label :created_at %><br>
     <%= f.date_select :created_at %>
   </div>
   <div>
-    <%= f.label :completed %>
-    <%= f.check_box(:completed) %>
+    <% if @task[:completed] == true %>
+        <%= f.label "Date Completed: " %>
+        <%= f.date_select :date_completed, :disabled=> true %>
+    <% else %>
+        <%= f.label "Date Completed: Pending" %>
+    <% end %>
   </div>
   <div>
-    <% if @task[:completed] == true %>
-      <%= f.label "Date Completed: " %>
-      <%= f.date_select :date_completed, :disabled=> true %>
-    <% else %>
-      <%= f.label "Date Completed: Pending" %>
-    <% end %>
+    <%= f.label :completed %>
+    <%= f.check_box(:completed) %>
   </div>
   <div class="actions">
     <%= f.submit %>

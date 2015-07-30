@@ -4,23 +4,24 @@
 
 <h1>To-Do's</h1>
 <% if @tasks.size > 0 %>
-  <table>
+  <table id="tasks_table">
     <thead>
     <th><%= sortable "title", "Task"%></th>
-    <th>Description</th>
+    <th><%= sortable "completed", "State" %></th>
+    <th><%= sortable "priority"%></th>
+    <th><%= sortable "description", "Description"%></th>
     <th><%= sortable "created_at", "Date Created" %></th>
     <th><%= sortable "date_completed", "Date Completed" %></th>
-    <th><%= sortable "completed", "State" %></th>
-    <th>Complete</th>
-    <th colspan="5"></th>
+    <th colspan="9"></th>
     </thead>
         <% @tasks.each do |task| %>
             <tr class="<%= get_style_from_state(task.id) %>">
               <td><%= task.title %></td>
+              <td><%= task.check_for_completion(task[:id]) ? "Completed" : "Active" %></td>
+              <td><%= task.priority_hash[task.priority] %></td>
               <td><%= sanitize(task.description) %></td>
               <td><%= task.created_at %></td>
               <td><%= get_date_completed_from_task(task[:id]) %></td>
-              <td><%= task.check_for_completion(task[:id]) ? "Completed" : "Active" %></td>
               <td>
                 <% if task.check_for_completion(task[:id]) != true %>
                     <%= button_to 'Complete', complete_tasks_path(:task_id => task[:id]), :class=> "button", :method => :post  %>

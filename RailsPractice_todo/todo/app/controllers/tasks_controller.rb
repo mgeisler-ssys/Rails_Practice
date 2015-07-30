@@ -31,7 +31,10 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to @task, notice: 'Task was successfully created.' }
+        if params[:task][:completed] == "1"
+          @task.update_date_completed(@task[:id], true)
+        end
+        format.html { redirect_to :action => 'index', notice: 'Task was successfully created.' }
         format.json { render :show, status: :created_at, location: @task }
       else
         format.html { render :new }
@@ -45,7 +48,7 @@ class TasksController < ApplicationController
   def update
     respond_to do |format|
       if @task.update(task_params)
-        format.html { redirect_to @task, notice: 'Task was successfully updated.' }
+        format.html { redirect_to :action => 'index', notice: 'Task was successfully updated.' }
         format.json { render :show, status: :ok, location: @task }
       else
         format.html { render :edit }
@@ -58,7 +61,7 @@ class TasksController < ApplicationController
     task = Task.find(params[:task_id])
     task.update_completed(params[:task_id])
     # Task.update_all(["completed_at=?", Time.now], :id => params[:task_ids])
-    redirect_to :action => 'index'
+    redirect_to tasks_path
   end
 
   # DELETE /tasks/1
@@ -87,6 +90,6 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:title, :description, :created_at, :completed, :date_completed)
+      params.require(:task).permit(:title, :description, :created_at, :completed, :date_completed, :priority)
     end
 end
