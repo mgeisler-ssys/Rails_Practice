@@ -1,10 +1,13 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  helper_method :sort_column, :sort_direction
 
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    # @tasks = Task.order(:created_at)
+    @tasks = Task.order(sort_column + " " + sort_direction)
+    @lists = List.order(sort_column + " " + sort_direction)
   end
 
   # GET /tasks/1
@@ -51,26 +54,29 @@ class TasksController < ApplicationController
     end
   end
 
-  # def toggle
-  #   @task = Task.find(params[:id])
-  #
-  #   if @task.update_attributes(:completed => params[:completed])
-  #     # ... update successful
-  #   else
-  #     # ... update failed
-  #   end
-  #
-  #   redirect_to :action => 'index', notice: "'#{task.title}' Completed"
-  # end
+  def complete
+    task = Task.find(params[:task_id])
+    task.update_completed(params[:task_id])
+    # Task.update_all(["completed_at=?", Time.now], :id => params[:task_ids])
+    redirect_to :action => 'index'
+  end
 
   # DELETE /tasks/1
   # DELETE /tasks/1.json
   def destroy
     @task.destroy
     respond_to do |format|
-      format.html { redirect_to list_url, notice: 'Task was successfully destroyed.' }
+      format.html { redirect_to @task, notice: 'Task was successfully deleted.' }
       format.json { head :no_content }
     end
+  end
+
+  def sort_column
+    Task.column_names.include?(params[:sort]) ? params[:sort] : "title"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
   private

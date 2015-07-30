@@ -3,47 +3,51 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .tasks {
-  table {
-    border: 1px solid black;
+  width: 70%;
+  h1 {
+    margin: 0;
+    padding-bottom: 0.5em;
+    font: 150% sans-serif;
+    color: #224444;
+    border-bottom: 3px dotted #666666;
   }
 
   table tr td {
     padding: 5px;
     vertical-align: top;
-
-    td{
-      align: center;
-    }
   }
 
-  .list_description {
-
-    dl {
-      margin: 0;
+  table{
+    thead{
+      vertical-align:middle;
+      text-align:left;
     }
 
-    dt {
-      color: #244;
-      font-weight: bold;
-      font-size: larger;
+    .list_even{
+      background-color:#FFC0C0;
+    }
+    .list_odd{
+      background-color:#FFE3E3;
+    }
+    .list_completed{
+      background-color:#D9E3C8;
+      color: #666666;
     }
 
-    dd {
-      margin: 0;
-      text-align:center
-    }
-  }
-  .list_actions {
-    font-size: x-small;
-    text-align: right;
-    padding-left: 1em;
   }
 
-  .list_line_odd {
-    background: #A4BAA9;
+  h3 {
+    font-size: 120%;
+    font-family: sans-serif;
+    margin-top: 0px;
+    margin-bottom: 2px;
+    color: #224444
   }
 
-  .list_line_even {
-    background: #D9E3C8;
+  p, div.task_actions {
+    margin-left: 50px;
+    margin-top: 0.5em;
+    margin-bottom: 0.8em;
   }
+
 }

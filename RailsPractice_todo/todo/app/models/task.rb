@@ -1,4 +1,5 @@
 class Task < ActiveRecord::Base
+
   validates :title, :description, :created_at, presence: true
   validates :title, uniqueness: true
 
@@ -11,9 +12,10 @@ class Task < ActiveRecord::Base
     end
   end
 
-  def toggle_completed(task_id)
+
+  def update_completed(task_id)
     task = Task.find(task_id)
-    task.update_attribute(:completed, !task[:completed])
+    task.update_column(:completed, !task[:completed])
     task.save!
   end
 
