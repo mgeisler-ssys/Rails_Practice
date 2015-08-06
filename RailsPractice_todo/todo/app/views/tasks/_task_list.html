@@ -1,0 +1,44 @@
+<script type="text/ng-template" id="_task_list.html">
+  <section>
+    <div>
+      Search: <input ng-model="query">
+      Sort by:
+      <select ng-model="orderProp">
+        <option value="title">Name (Alphabetical)</option>
+        <option value="-title">Name (Reverse-Alphabetical)</option>
+        <option value="completed">Active Tasks First</option>
+        <option value="-completed">Completed Tasks First</option>
+        <option value="priority">Lowest Priority</option>
+        <option value="-priority">Highest Priority</option>
+      </select>
+    </div>
+    <ol class="tasks">
+      <li class="list-group-item clearfix"
+          ng-repeat="task in tasks | filter:query | orderBy:orderProp">
+        <button class="btn btn-primary btn-sm pull-right" ng-click="go('tasks/' + task.id)" ng-model="tasks">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+        <button class="btn btn-primary btn-sm pull-right" ng-click="deleteTask(task)" ng-model="tasks">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <h3 class="pull-right">
+          <small class="text-uppercase">Created On: </small>
+          {{ task.created_at }}
+        </h3>
+        <h2 class="h3">
+          <a href="#/tasks/{{task.id}}">{{task.title}}</a>
+          <br />
+          <small>Description: {{ task.description }}</small>
+          <br />
+          <small>Priority: {{ task.priority }}</small>
+          <br />
+          <small>TaskID: {{ task.id }}</small>
+          <br />
+          <small>Date Completed: {{ task.date_completed }}</small>
+          <br />
+          <small>Completed?: {{ task.completed }}</small>
+        </h2>
+      </li>
+    </ol>
+  </section>
+</script>

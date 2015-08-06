@@ -5,14 +5,26 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    # @tasks = Task.order(:created_at)
     @tasks = Task.order(sort_column + " " + sort_direction)
-    @lists = List.order(sort_column + " " + sort_direction)
+    @incomplete_tasks = Task.where(:completed => false).order(sort_column + " " + sort_direction)
+    @complete_tasks = Task.where(:completed => true)
+
+    respond_to do |format|
+      format.html {}
+      format.json { render json: @tasks }
+
+    end
+
   end
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
+    task_id = params[:id]
+    @task = Task.find(task_id)
+    respond_to do |format|
+      format.json {render json: @task}
+    end
   end
 
   # GET /tasks/new
@@ -22,6 +34,11 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    # task_id = params[:id]
+    # @task = Task.find(task_id)
+    # respond_to do |format|
+    #   format.json {render json: @task}
+    # end
   end
 
   # POST /tasks
@@ -56,7 +73,7 @@ class TasksController < ApplicationController
       end
     end
   end
-
+ # POST /tasks/complete/1
   def complete
     task = Task.find(params[:task_id])
     task.update_completed(params[:task_id])

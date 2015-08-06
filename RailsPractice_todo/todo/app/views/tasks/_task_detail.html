@@ -1,0 +1,31 @@
+<script type="text/ng-template" id="_task_detail.html">
+TBD: detail view for <span>{{taskId}}</span>
+    {{task.title}}
+    {{task.description}}
+    {{task.created_at}}
+    {{task.updated_at}}
+    {{task.date_completed}}
+    {{task.comlpleted}}
+    {{task.priority}}
+
+<ul class="list-group">
+<li>
+    <h3><span class="label label-default">Title</span>
+        <input type="text" placeholder="{{task.title}}">
+    </h3>
+</li>
+<li>
+    <h3><span class="label label-default">Description</span>
+        <input type="textbox" placeholder="{{task.description}}">
+    </h3>
+</li>
+<button class="btn btn-primary btn-sm" ng-click="updateTask()" ng-model="tasks">
+    Save
+</button>
+<button class="btn btn-primary btn-sm" ng-click="go('/tasks', task.id)" ng-model="tasks">
+    Back
+</button>
+</ul>
+
+
+</script>

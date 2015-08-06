@@ -1,10 +1,15 @@
 <% if notice %>
     <p id="notice"><%= notice %></p>
 <% end %>
+<br />
+<article>
+  <header>
+    <h1 class="h2">To-Do's</h1>
+  </header>
 
-<h1>To-Do's</h1>
+<section class="task_list">
 <% if @tasks.size > 0 %>
-  <table id="tasks_table">
+    <table class="table" id="tasks_table">
     <thead>
     <th><%= sortable "title", "Task"%></th>
     <th><%= sortable "completed", "State" %></th>
@@ -24,19 +29,35 @@
               <td><%= get_date_completed_from_task(task[:id]) %></td>
               <td>
                 <% if task.check_for_completion(task[:id]) != true %>
-                    <%= button_to 'Complete', complete_tasks_path(:task_id => task[:id]), :class=> "button", :method => :post  %>
+                    <%= button_to 'Complete', complete_tasks_path(:task_id => task[:id]), :class=> "btn btn-default btn-sm", :method => :post  %>
                 <% end %>
               </td>
-              <td class="delete_action">
-                <%= button_to 'Edit', edit_task_path(task), :class => "button", :method => :get %>
+              <td>
+
+                <%= button_to 'Edit', edit_task_path(task),:class => "btn btn-default btn-sm", method: :get %>
               </td>
-              <td class="delete_action"><%= button_to 'X', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <td><%= button_to 'X', task, :class=>"btn btn-default btn-sm", method: :delete, data: { confirm: 'Are you sure?' } %></td>
             </tr>
+          </div>
         <% end %>
   </table>
 <% else %>
     <br />
- <p> No Current Tasks...</p>
+ <p> No Current Tasks ...</p>
 <% end %>
 <br />
-<%= button_to 'Add Task', new_task_path, :class => "button", :method => :get %>
+<%= button_to 'Add Task', new_task_path, :class => "btn btn-default btn-lg", :method => :get %>
+</section>
+</article>
+
+
+<article ng-app="tasks">
+  <header>
+    <h1 class="h2">To-Do's</h1>
+  </header>
+    <%= render partial: "tasks/task_list"%>
+    <%= render partial: "tasks/task_detail" %>
+  <div ng-view>
+  </div>
+
+</article>

@@ -2,6 +2,7 @@ class Task < ActiveRecord::Base
 
   validates :title, :description, :created_at, presence: true
   validates :title, uniqueness: true
+  # validates_date :created_at,:updated_at, :date_completed, on_or_before: lambda { Date.current }
 
   def check_for_completion(task_id)
     task = Task.find(task_id)
