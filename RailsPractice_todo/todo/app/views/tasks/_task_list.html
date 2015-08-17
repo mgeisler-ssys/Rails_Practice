@@ -6,6 +6,11 @@
   </header>
   <br />
 
+  <div class="container-fluid">
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+    <button type="button" class='btn btn-default' ng-click="saveSuccessAlert()">Add Alert</button>
+  </div>
+
     <div>
       <div class="col-md-2">
       Search: <input ng-model="query">

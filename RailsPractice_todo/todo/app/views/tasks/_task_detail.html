@@ -56,6 +56,13 @@
             </div>
         </div>
         <br />
+        <div class="container">
+            <button ng-click="toggleModal('Success')" class="btn btn-default">Success</button>
+            <div visible="showModal">
+                <div modal>Any additional data / buttons</div>
+
+            </div>
+        </div>
 
         <button class="btn btn-primary btn-sm" ng-click="updateTask(task.id, task.title, task.description, task.priority)" ng-model="tasks.task">
             Save

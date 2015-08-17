@@ -8,6 +8,18 @@ tasksControllers.controller('TaskListCtrl', ['$scope', '$location','$http', 'Tas
         $scope.go = function ( path ) {
             $location.path( path );
         };
+        $scope.alerts = [
+            { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+            { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+        ];
+
+        $scope.saveSuccessAlert = function() {
+            $scope.alerts.push({msg: 'Task Saved Successfully!'});
+        };
+
+        $scope.closeAlert = function(index) {
+            $scope.alerts.splice(index, 1);
+        };
 
         $scope.setPriorityString = function(priorityNum){
             $scope.priority_string = Tasks.getPriorityString(priorityNum);
@@ -77,6 +89,19 @@ tasksControllers.controller('TaskDetailCtrl', ['$scope', '$location', '$http', '
     function($scope, $location, $http, $routeParams, Task) {
         $scope.taskId = $routeParams.taskId;
         $scope.task = Task.query({taskId: $scope.taskId});
+
+        $scope.showModal = false;
+        $scope.buttonClicked = "";
+
+        $scope.toggleModal = function(btnClicked){
+            console.log("INSIDE TOGGLE MODAL");
+            $scope.buttonClicked = btnClicked;
+            console.log($scope.buttonClicked);
+            console.log(btnClicked);
+
+            $scope.showModal = !$scope.showModal;
+            console.log($scope.showModal);
+        };
         console.log($scope.task);
         $scope.priorities = [
             { id: 1, title: 'Low' },
@@ -102,6 +127,7 @@ tasksControllers.controller('TaskDetailCtrl', ['$scope', '$location', '$http', '
                 $http.post("/tasks", {task:$scope.task}).success(function(data, status) {
                         console.log(data);
                 })
+
 
             }
             else {
@@ -165,55 +191,44 @@ tasksControllers.controller('TaskNewCtrl', ['$scope', '$location', '$http', '$ro
         }
     ]);
 
-tasksControllers.controller('ModalDemoCtrl', function ($scope, $modal, $log) {
-    console.log("INSIDE MODALDEMOCTRL");
-    $scope.items = ['item1', 'item2', 'item3'];
 
-    $scope.animationsEnabled = true;
+tasksControllers.directive('modal', function () {
+    return {
+        template: '<div class="modal fade">' +
+        '<div class="modal-dialog">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+        '<h4 class="modal-title">{{ buttonClicked }} clicked!!</h4>' +
+        '</div>' +
+        '<div class="modal-body" ng-transclude></div>' +
+        '</div>' +
+        '</div>' +
+        '</div>',
+        restrict: 'E',
+        transclude: true,
+        replace:true,
+        scope:true,
+        link: function postLink(scope, element, attrs) {
+            scope.$watch(attrs.visible, function(value){
+                if(value == true)
+                    $(element).modal('show');
+                else
+                    $(element).modal('hide');
+            });
 
-    $scope.open = function (size) {
+            $(element).on('shown.bs.modal', function(){
+                scope.$apply(function(){
+                    scope.$parent[attrs.visible] = true;
+                });
+            });
 
-        var modalInstance = $modal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'myModalContent.html',
-            controller: 'ModalInstanceCtrl',
-            size: size,
-            resolve: {
-                items: function () {
-                    return $scope.items;
-                }
-            }
-        });
-
-        modalInstance.result.then(function (selectedItem) {
-            $scope.selected = selectedItem;
-        }, function () {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
-
-    $scope.toggleAnimation = function () {
-        $scope.animationsEnabled = !$scope.animationsEnabled;
-    };
-
-});
-
-// Please note that $modalInstance represents a modal window (instance) dependency.
-// It is not the same as the $modal service used above.
-
-tasksControllers.controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
-
-    $scope.items = items;
-    $scope.selected = {
-        item: $scope.items[0]
-    };
-
-    $scope.ok = function () {
-        $modalInstance.close($scope.selected.item);
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
+            $(element).on('hidden.bs.modal', function(){
+                scope.$apply(function(){
+                    scope.$parent[attrs.visible] = false;
+                });
+            });
+        }
     };
 });
 //look up angular model tutorial (youtube?)
