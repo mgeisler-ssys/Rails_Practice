@@ -1,6 +1,8 @@
 var app = angular.module('tasks',[
     'ngRoute',
-    'tasksControllers'
+    'tasksControllers',
+    'tasksServices',
+    //'tasksAnimations',
 ]);
 
 
@@ -17,14 +19,10 @@ app.config(['$routeProvider',
                 templateUrl: '_task_detail.html',
                 controller: 'TaskDetailCtrl'
             }).
-            //when('/tasks/:taskId/edit', {
-            //    templateUrl: '_task_detail.html',
-            //    controller: 'TaskDetailCtrl'
-            //}).
-            //when('/tasks/new', {
-            //    templateUrl: 'new.html.erb',
-            //    controller: 'TaskNewCtrl'
-            //}).
+            when( '/tasks/modal', {
+                templateUrl: '_modal.html',
+                controller: 'ModalDemoCtrl'
+            }).
             otherwise({
                 redirectTo: '/tasks'
             });

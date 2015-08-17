@@ -1,31 +1,78 @@
 <script type="text/ng-template" id="_task_detail.html">
-TBD: detail view for <span>{{taskId}}</span>
-    {{task.title}}
-    {{task.description}}
-    {{task.created_at}}
-    {{task.updated_at}}
-    {{task.date_completed}}
-    {{task.comlpleted}}
-    {{task.priority}}
+<header>
+    <h1>Details for "{{task.title}}" (Task # {{task.id}})</h1>
+</header>
+<br />
+<ol class="tasks">
+    <form>
+    <li class="list-group-item clearfix task-listing">
+        <div class="container">
+            <div class="row">
+                <form role="form">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <!--<label class="label label-default" for="InputTitle">Task Title</label>-->
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="task.title" id="InputTitle" name="InputTitle" value="{{task.title}}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <!--<label class="label label-default" for="InputDescription">Description</label>-->
+                            <div class="input-group">
+                                <textarea ng-model="task.description" name="InputDescription" id="InputDescription" class="form-control" rows="5" required>{{task.description}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <select class="form-control" ng-model="task.priority" name="InputPriority" id="InputPriority" ng-options="p.id as p.title for p in priorities">
 
-<ul class="list-group">
-<li>
-    <h3><span class="label label-default">Title</span>
-        <input type="text" placeholder="{{task.title}}">
-    </h3>
-</li>
-<li>
-    <h3><span class="label label-default">Description</span>
-        <input type="textbox" placeholder="{{task.description}}">
-    </h3>
-</li>
-<button class="btn btn-primary btn-sm" ng-click="updateTask()" ng-model="tasks">
-    Save
-</button>
-<button class="btn btn-primary btn-sm" ng-click="go('/tasks', task.id)" ng-model="tasks">
-    Back
-</button>
-</ul>
+                                <!--<option value="1">Low</option>-->
+                                <!--<option value="2">Medium</option>-->
+                                <!--<option value="3">High</option>-->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input id="InputComplete" ng-model="task.completed" type="checkbox" value="">Task is Complete</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <br />
+                        <div class="form-group">
+                            <label>Last Updated: {{task.updated_at}}</label>
+                        </div>
+                        <div class="form-group">
+                            <label>Date Created: {{task.created_at}}</label>
+                        </div>
+                        <div class="form-group" ng-if="task.completed">
+                            <label>Date Completed: {{task.date_completed}}</label>
+                        </div>
+                    </div>
+                    <br />
+                </form>
+            </div>
+        </div>
+        <br />
+
+        <button class="btn btn-primary btn-sm" ng-click="updateTask(task.id, task.title, task.description, task.priority)" ng-model="tasks.task">
+            Save
+        </button>
+        <button class="btn btn-primary btn-sm" ng-click="go('/tasks', task.id)" ng-model="tasks">
+            Back
+        </button>
+    </li>
+    </form>
+</ol>
+
+
 
 
 </script>
+
+
+
+
+

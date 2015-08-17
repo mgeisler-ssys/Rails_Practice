@@ -1,9 +1,16 @@
+
+
 <script type="text/ng-template" id="_task_list.html">
-  <section>
+  <header>
+    <h1 class="h2">To-Do List</h1>
+  </header>
+  <br />
+
     <div>
+      <div class="col-md-2">
       Search: <input ng-model="query">
       Sort by:
-      <select ng-model="orderProp">
+      <select class="form-control" ng-model="orderProp">
         <option value="title">Name (Alphabetical)</option>
         <option value="-title">Name (Reverse-Alphabetical)</option>
         <option value="completed">Active Tasks First</option>
@@ -11,34 +18,61 @@
         <option value="priority">Lowest Priority</option>
         <option value="-priority">Highest Priority</option>
       </select>
+        <!--<a href="#" class="btn btn-info" role="button">Link Button</a>-->
+        <!--<button class="btn btn-primary btn-sm" ng-click="go(#/tasks/new)" style="margin-top:10px;" ng-model="tasks">-->
+            <!--<span class="glyphicon glyphicon-plus"> Task</span>-->
+        <!--</button>-->
+
+
+        <div class="navbar">
+          <div class="navbar-inner">
+            <ul class="nav">
+              <li class="active"><a href="#/tasks/new">+ Add New Task</a></li>
+              </ul>
+            </div>
+          </div>
+      </div>
     </div>
+    <div class="col-lg-8">
+    <section>
     <ol class="tasks">
-      <li class="list-group-item clearfix"
+      <li class="list-group-item clearfix task-listing"
           ng-repeat="task in tasks | filter:query | orderBy:orderProp">
-        <button class="btn btn-primary btn-sm pull-right" ng-click="go('tasks/' + task.id)" ng-model="tasks">
-          <span class="glyphicon glyphicon-pencil"></span>
-        </button>
-        <button class="btn btn-primary btn-sm pull-right" ng-click="deleteTask(task)" ng-model="tasks">
-          <span class="glyphicon glyphicon-remove"></span>
-        </button>
-        <h3 class="pull-right">
-          <small class="text-uppercase">Created On: </small>
-          {{ task.created_at }}
-        </h3>
+        <div class="btn-toolbar">
+          <button class="btn btn-primary btn-sm pull-left" ng-if="task.completed == false" ng-click="completeTask(task.id)" ng-model="tasks">
+            <span class="glyphicon glyphicon-ok"> Complete</span>
+          </button>
+          <span ng-if="task.completed==true" class="label label-success">Complete</span>
+          <button class="btn btn-primary btn-sm pull-right" ng-click="go('tasks/' + task.id)" ng-model="tasks">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </button>
+          <button class="btn btn-primary btn-sm pull-right" ng-click="deleteTask(task.id)" ng-model="tasks">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
         <h2 class="h3">
-          <a href="#/tasks/{{task.id}}">{{task.title}}</a>
+          <a href="#/tasks/{{task.id}}">{{ task.title }}</a>
           <br />
-          <small>Description: {{ task.description }}</small>
-          <br />
-          <small>Priority: {{ task.priority }}</small>
-          <br />
-          <small>TaskID: {{ task.id }}</small>
-          <br />
-          <small>Date Completed: {{ task.date_completed }}</small>
-          <br />
-          <small>Completed?: {{ task.completed }}</small>
         </h2>
+        <h3 class="container-fluid">
+          <label>Description: {{ task.description }}</label>
+          <br />
+          <label>Priority: {{ setPriorityString(task.priority) }}</label>
+          <br />
+          <small>Task ID: {{ task.id }}</small>
+          <br />
+          <small>Date Completed: {{setDateCompletedString(task.date_completed)}}</small>
+          <br />
+          State: {{ setCompletedString(task.completed) }}
+          <h3 class="container-fluid pull-right">
+            <small class="text-uppercase">Created On: </small>
+            {{ task.created_at }}
+          </h3>
+        </h3>
       </li>
+
     </ol>
+
   </section>
+  </div>
 </script>

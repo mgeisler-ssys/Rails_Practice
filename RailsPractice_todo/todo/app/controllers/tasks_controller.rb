@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   helper_method :sort_column, :sort_direction
+  skip_before_action :verify_authenticity_token
 
   # GET /tasks
   # GET /tasks.json
@@ -30,6 +31,11 @@ class TasksController < ApplicationController
   # GET /tasks/new
   def new
     @task = Task.new
+    respond_to do |format|
+      format.html {}
+      format.json { render json: @task }
+
+    end
   end
 
   # GET /tasks/1/edit
@@ -52,7 +58,7 @@ class TasksController < ApplicationController
           @task.update_date_completed(@task[:id], true)
         end
         format.html { redirect_to :action => 'index', notice: 'Task was successfully created.' }
-        format.json { render :show, status: :created_at, location: @task }
+        format.json { render json: @task }
       else
         format.html { render :new }
         format.json { render json: @task.errors, status: :unprocessable_entity }
@@ -91,6 +97,7 @@ class TasksController < ApplicationController
     end
   end
 
+
   def sort_column
     Task.column_names.include?(params[:sort]) ? params[:sort] : "title"
   end
@@ -107,6 +114,6 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:title, :description, :created_at, :completed, :date_completed, :priority)
+      params.require(:task).permit(:id, :title, :description, :updated_at, :created_at, :completed, :date_completed, :priority)
     end
 end

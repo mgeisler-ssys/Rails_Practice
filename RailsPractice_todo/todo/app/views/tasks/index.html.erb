@@ -1,11 +1,30 @@
+<!-- Angular View -->
+<article ng-app="tasks">
+<br />
+  <div class="view-container">
+    <div ng-view class="view-frame">
+      <%= render partial: "tasks/task_list"%>
+      <%= render partial: "tasks/task_detail" %>
+
+    </div>
+    <div ngview= class="view-frame">
+      <%= render partial: "tasks/newangular" %>
+    </div>
+  </div>
+</article>
+
+
+
+
+<!-- EXISING RAILS VIEW -->
 <% if notice %>
     <p id="notice"><%= notice %></p>
 <% end %>
 <br />
-<article>
-  <header>
-    <h1 class="h2">To-Do's</h1>
-  </header>
+<!--<article>-->
+  <!--<header>-->
+    <!--<h1 class="h2">To-Do's</h1>-->
+  <!--</header>-->
 
 <section class="task_list">
 <% if @tasks.size > 0 %>
@@ -50,14 +69,3 @@
 </section>
 </article>
 
-
-<article ng-app="tasks">
-  <header>
-    <h1 class="h2">To-Do's</h1>
-  </header>
-    <%= render partial: "tasks/task_list"%>
-    <%= render partial: "tasks/task_detail" %>
-  <div ng-view>
-  </div>
-
-</article>
